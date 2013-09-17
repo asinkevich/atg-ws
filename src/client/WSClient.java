@@ -1,38 +1,47 @@
 package client;
 
 import exception.WSException;
-import org.apache.axis2.AxisFault;
-import org.apache.axis2.axis2userguide.PostpaidCatalogueWSServiceStub;
+import org.apache.axis2.databinding.ADBBean;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 public class WSClient {
     private String stubsPackageName;
 
+    public ADBBean callService(String serviceName, String methodName, String endPoint, Map<String, Object> requestParams) throws WSException {
+        Class stubClass = getStub(serviceName);
+        Object serviceStub = getServiceStub(endPoint, stubClass);
+        Class requestClass = getRequestClass(stubClass, methodName);
+        Method serviceMethod = getMethodForInvokingWS(methodName, stubClass, requestClass);
+        Object request = initRequest(requestParams, requestClass);
 
-    public void callService(String serviceName, String methodName) throws WSException {
-        Class stub = getStub(serviceName);
-        Class requestClass = getRequestClass(stub, methodName);
+        return callService(serviceName, endPoint, serviceStub, serviceMethod, request);
+    }
 
+    private Class getStub(String serviceName) throws WSException {
+        Class stub;
+        String stubClassName = getStubsPackageName() + "." + serviceName + "Stub";
+        try {
+            stub = Class.forName(stubClassName);
+        } catch (ClassNotFoundException e) {
+            throw new WSException("Class " + stubClassName + " can't be found");
+        }
+        return stub;
+    }
+
+    private Object getServiceStub(String endPoint, Class stubClass) throws WSException {
         Object stubObject;
-        Constructor constructor = null;
+        Constructor constructor;
         try {
-            constructor = stub.getConstructor(String.class);
-            stubObject = constructor.newInstance("endpoint");
+            constructor = stubClass.getConstructor(String.class);
+            stubObject = constructor.newInstance(endPoint);
         } catch (Exception e) {
             throw new WSException(e);
         }
-
-
-        PostpaidCatalogueWSServiceStub.GetServicesRequest request = new PostpaidCatalogueWSServiceStub.GetServicesRequest();
-        request.setChannel("das");
-        try {
-            PostpaidCatalogueWSServiceStub stub2 = new PostpaidCatalogueWSServiceStub();
-//            PostpaidCatalogueWSServiceStub.GetServicesResponse response = stub2.getServices(request);
-        } catch (Exception e) {
-            throw new WSException(e);
-        }
+        return stubObject;
     }
 
     private Class getRequestClass(Class stub, String methodName) {
@@ -45,65 +54,43 @@ public class WSClient {
         return requestClass;
     }
 
-    /*
-    *
-    * else {
-            serviceUrl = endPoint + "/" + serviceName;
-            auditOn = false;
-            timeout = 7500;
-        }
-
-        Exception ex = null;
-        int numTrys = 0;
-        boolean error;
-        Stub stub = null;
-        boolean slowCall = false;
-        int callTime = 0;
+    private Method getMethodForInvokingWS(String methodName, Class stubClass, Class requestClass) throws WSException {
+        Method method;
         try {
-            PerformanceMonitor.startOperation(CALL_SERVICE, serviceName);
-            do {
-                error = false;
-                try {
-                    stub = client.init(configContext, serviceUrl);
-                    // A bit of insurance should the doStartService call fail
-                    if (configContext == null) {
-                        configContext = stub._getServiceClient().getServiceContext().getConfigurationContext();
-                    }
-                    Options axisOptions = stub._getServiceClient().getOptions();
-                    axisOptions.setTimeOutInMilliSeconds(timeout);
-                    axisOptions.setExceptionToBeThrownOnSOAPFault(throwExceptionOnFault);
-
-                    Class clientClass = client.getClass();
-                    Method method = clientClass.getMethod(operation,
-                            new Class[] { client.getDataObjectClass(dataObject), stub.getClass() });
-                    Calendar START = Calendar.getInstance();
-                    response = method.invoke(client, dataObject, stub);
-                    Calendar END = Calendar.getInstance();
-                    callTime = (int) (END.getTimeInMillis() - START.getTimeInMillis());
-                    if (callTime > slowCallThreshold) {
-                        slowCall = true;
-                    }
-
-                } catch (Exception e) {
-                    if (isLoggingError()) {
-                        // Actual exception and stack trace should only be logged in calling code
-                        logError("Attempt " + numTrys + " to call web service " + serviceUrl + " failed.");
-                    }
-                    numTrys++;
-                    error = true;
-                    ex = e;
-                }
-    * */
-
-    private Class getStub(String serviceName) throws WSException {
-        Class stub;
-        String stubClassName = getStubsPackageName() + "." + serviceName + "Stub";
-        try {
-            stub = Class.forName(stubClassName);
-        } catch (ClassNotFoundException e) {
-            throw new WSException("Class " + stubClassName + " can't be found");
+            method = stubClass.getMethod(methodName, requestClass);
+        } catch (NoSuchMethodException e) {
+            throw new WSException("Can't find method " + methodName + " for " + stubClass);
         }
-        return stub;
+        return method;
+    }
+
+    private Object initRequest(Map<String, Object> requestParams, Class requestClass) throws WSException {
+        Object request;
+        String methodName = null;
+        try {
+            request = requestClass.newInstance();
+            for (String paramName : requestParams.keySet()) {
+                Object paramValue = requestParams.get(paramName);
+                methodName = "set" + paramName.substring(0, 1).toUpperCase() + paramName.substring(1);
+                Method m = requestClass.getMethod(methodName, paramValue.getClass());
+                m.invoke(request, paramValue);
+            }
+        } catch (NoSuchMethodException e) {
+            throw new WSException("Can' find method " + methodName + " for " + requestClass);
+        } catch (Exception e) {
+            throw new WSException(e);
+        }
+        return request;
+    }
+
+    private ADBBean callService(String serviceName, String endPoint, Object serviceStub, Method serviceMethod, Object request) throws WSException {
+        try {
+            return  (ADBBean) serviceMethod.invoke(serviceStub, request);
+        } catch (InvocationTargetException e) {
+            throw new WSException("Web service " + serviceName + " is unavailable at " + endPoint);
+        } catch (IllegalAccessException e) {
+            throw new WSException(e);
+        }
     }
 
     public String getStubsPackageName() {
