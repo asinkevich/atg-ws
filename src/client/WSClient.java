@@ -44,14 +44,13 @@ public class WSClient {
         return stubObject;
     }
 
-    private Class getRequestClass(Class stub, String methodName) {
-        Class requestClass = null;
+    private Class getRequestClass(Class stub, String methodName) throws WSException {
         for (Class innerClass : stub.getDeclaredClasses()) {
             if (innerClass.getSimpleName().equalsIgnoreCase(methodName + "request")) {
-                requestClass = innerClass;
+                return innerClass;
             }
         }
-        return requestClass;
+        throw new WSException("Can't find class " + stub.getSimpleName() + "$" + capitalize(methodName) + "Request");
     }
 
     private Method getMethodForInvokingWS(String methodName, Class stubClass, Class requestClass) throws WSException {
@@ -59,7 +58,8 @@ public class WSClient {
         try {
             method = stubClass.getMethod(methodName, requestClass);
         } catch (NoSuchMethodException e) {
-            throw new WSException("Can't find method " + methodName + " for " + stubClass);
+            throw new WSException("Can't find method " + methodName + "("
+                    + requestClass.getSimpleName() + ") for " + stubClass);
         }
         return method;
     }
@@ -67,20 +67,26 @@ public class WSClient {
     private Object initRequest(Map<String, Object> requestParams, Class requestClass) throws WSException {
         Object request;
         String methodName = null;
+        Object paramValue = null;
         try {
             request = requestClass.newInstance();
             for (String paramName : requestParams.keySet()) {
-                Object paramValue = requestParams.get(paramName);
-                methodName = "set" + paramName.substring(0, 1).toUpperCase() + paramName.substring(1);
+                paramValue = requestParams.get(paramName);
+                methodName = "set" + capitalize(paramName);
                 Method m = requestClass.getMethod(methodName, paramValue.getClass());
                 m.invoke(request, paramValue);
             }
         } catch (NoSuchMethodException e) {
-            throw new WSException("Can' find method " + methodName + " for " + requestClass);
+            throw new WSException("Can' find method " + methodName
+                    + "(" + paramValue.getClass().getSimpleName() + ") for " + requestClass);
         } catch (Exception e) {
             throw new WSException(e);
         }
         return request;
+    }
+
+    private String capitalize(String s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
     private ADBBean callService(String serviceName, String endPoint, Object serviceStub, Method serviceMethod, Object request) throws WSException {
