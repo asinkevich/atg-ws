@@ -1,6 +1,8 @@
 package client;
 
-import mock.stub.TestADBBean;
+import mock.stub.StubRequest;
+import mock.stub.StubResponse;
+import org.apache.xmlbeans.XmlObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,11 +22,11 @@ public class WSClientTest {
 
     @Test
     public void shouldLoadStubClasses() throws Exception {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("channel", "atg");
+        StubRequest request = new StubRequest();
+        request.setChannel("atg_channel");
 
-        TestADBBean response = (TestADBBean) wsClient.callService(
-                "TestService", "getServices", "http://localhost:8088/testService", params);
-        assertEquals("atg", response.getName());
+        StubResponse response = (StubResponse) wsClient.callService(
+                "TestService", "getServices", "http://localhost:8088/testService", request);
+        assertEquals("atg_channel", response.getResponseCode());
     }
 }

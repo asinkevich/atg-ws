@@ -1,7 +1,7 @@
 package client;
 
 import exception.WSException;
-import org.apache.axis2.databinding.ADBBean;
+import org.apache.xmlbeans.XmlObject;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -11,12 +11,10 @@ import java.util.Map;
 public class WSClient {
     private String stubsPackageName;
 
-    public ADBBean callService(String serviceName, String methodName, String endPoint, Map<String, Object> requestParams) throws WSException {
+    public XmlObject callService(String serviceName, String methodName, String endPoint, XmlObject request) throws WSException {
         Class stubClass = getStub(serviceName);
         Object serviceStub = getServiceStub(endPoint, stubClass);
-        Class requestClass = getRequestClass(stubClass, methodName);
-        Method serviceMethod = getMethodForInvokingWS(methodName, stubClass, requestClass);
-        Object request = initRequest(requestParams, requestClass);
+        Method serviceMethod = getMethodForInvokingWS(methodName, stubClass, request.getClass());
 
         return callService(serviceName, endPoint, serviceStub, serviceMethod, request);
     }
@@ -42,15 +40,6 @@ public class WSClient {
             throw new WSException(e);
         }
         return stubObject;
-    }
-
-    private Class getRequestClass(Class stub, String methodName) throws WSException {
-        for (Class innerClass : stub.getDeclaredClasses()) {
-            if (innerClass.getSimpleName().equalsIgnoreCase(methodName + "request")) {
-                return innerClass;
-            }
-        }
-        throw new WSException("Can't find class " + stub.getSimpleName() + "$" + capitalize(methodName) + "Request");
     }
 
     private Method getMethodForInvokingWS(String methodName, Class stubClass, Class requestClass) throws WSException {
@@ -89,9 +78,9 @@ public class WSClient {
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
-    private ADBBean callService(String serviceName, String endPoint, Object serviceStub, Method serviceMethod, Object request) throws WSException {
+    private XmlObject callService(String serviceName, String endPoint, Object serviceStub, Method serviceMethod, Object request) throws WSException {
         try {
-            return  (ADBBean) serviceMethod.invoke(serviceStub, request);
+            return  (XmlObject) serviceMethod.invoke(serviceStub, request);
         } catch (InvocationTargetException e) {
             throw new WSException("Web service " + serviceName + " is unavailable at " + endPoint);
         } catch (IllegalAccessException e) {

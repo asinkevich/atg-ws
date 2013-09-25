@@ -1,7 +1,5 @@
 package mock.stub;
 
-import org.apache.axis2.databinding.ADBBean;
-
 public class TestServiceStub {
     private String endPoint;
 
@@ -12,19 +10,9 @@ public class TestServiceStub {
         this.endPoint = endPoint;
     }
 
-    public ADBBean getServices(GetServicesRequest request) {
-        return new TestADBBean(request.getChannel());
-    }
-
-    public static class GetServicesRequest {
-        private String channel;
-
-        public String getChannel() {
-            return channel;
-        }
-
-        public void setChannel(String channel) {
-            this.channel = channel;
-        }
+    public StubResponse getServices(StubRequest request) {
+        StubResponse stubResponse = new StubResponse();
+        stubResponse.setResponseCode(request.getChannel());
+        return stubResponse;
     }
 }
