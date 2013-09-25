@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WL5G3N0:definitions name="PostpaidCatalogueWsServiceDefinitions" targetNamespace="http://rom/cosmote/Postpaid/webservice/Postpaidcatalogue" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://rom/cosmote/Postpaid/webservice/Postpaidcatalogue" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://rom/cosmote/Postpaid/webservice/Postpaidcatalogue" xmlns:POST="http://rom/cosmote/Postpaid/webservice/Postpaidcatalogue" xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="CityObject">
+        <xs:sequence>
+          <xs:element name="CityName" type="xs:string"/>
+          <xs:element name="County" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Cities">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="City" type="POST:CityObject"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CountyObject">
+        <xs:sequence>
+          <xs:element name="CountyName" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Counties">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="County" type="POST:CountyObject"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostalStreetObject">
+        <xs:sequence>
+          <xs:element name="StreetName" type="xs:string"/>
+          <xs:element name="StreetRange" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="StreetListNames">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Street" type="POST:PostalStreetObject"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostalCodeObject">
+        <xs:sequence>
+          <xs:element name="PostalCodeId" type="xs:string"/>
+          <xs:element name="CityName" type="xs:string"/>
+          <xs:element name="StreetList" type="POST:StreetListNames"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostalCodes">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="PostalCode" type="POST:PostalCodeObject"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="StreetObject">
+        <xs:sequence>
+          <xs:element name="StreetName" type="xs:string"/>
+          <xs:element name="County" type="xs:string"/>
+          <xs:element name="City" type="xs:string"/>
+          <xs:element name="StreetNumber" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Streets">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Street" type="POST:StreetObject"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="benefitsObject">
+        <xs:sequence>
+          <xs:element name="TypeOfUnits" type="xs:string"/>
+          <xs:element name="value" type="xs:string"/>
+          <xs:element name="category" type="xs:string"/>
+          <xs:element name="unitOfMeassurement" type="xs:string"/>
+          <xs:element name="typeOfUnitId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="tarrifsObject">
+        <xs:sequence>
+          <xs:element name="destination" type="xs:string"/>
+          <xs:element name="value" type="xs:string"/>
+          <xs:element name="typeOfUnits" type="xs:string"/>
+          <xs:element name="unitOfMeassurement" type="xs:string"/>
+          <xs:element name="destinationId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="rateplansObject">
+        <xs:sequence>
+          <xs:element name="Rateplan_ID" type="xs:string"/>
+          <xs:element name="price" type="xs:string"/>
+          <xs:element name="description" type="xs:string"/>
+          <xs:element name="startPromoDate" type="xs:string"/>
+          <xs:element name="endPromoDate" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" name="benefits" type="POST:benefitsObject"/>
+          <xs:element maxOccurs="unbounded" name="tarrifs" type="POST:tarrifsObject"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="incompatibilityDependencyObject">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="serviceId" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" name="incompatibleService" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" name="prerequisiteService" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="renewalOfferDescription">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="offerDescription" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="renewalRateplansObject">
+        <xs:sequence>
+          <xs:element name="duration" type="xs:string"/>
+          <xs:element name="al10mi_start" type="xs:string"/>
+          <xs:element name="al10mi_end" type="xs:string"/>
+          <xs:element name="subsidy" type="xs:string"/>
+          <xs:element name="busActivationCode" type="xs:string"/>
+          <xs:element name="TypeOfUnits" type="xs:string"/>
+          <xs:element name="value" type="xs:string"/>
+          <xs:element name="renewalOfferDesc" type="POST:renewalOfferDescription"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="renewalPlanObject">
+        <xs:sequence>
+          <xs:element name="Rateplan_ID" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" name="renewalRateplan" type="POST:renewalRateplansObject"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="getAddressFieldsRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channel" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAddressFieldsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" name="responseCode" type="xs:string"/>
+            <xs:element name="CitiesList" type="POST:Cities"/>
+            <xs:element name="CountiesList" type="POST:Counties"/>
+            <xs:element name="PostalCodesList" type="POST:PostalCodes"/>
+            <xs:element name="StreetsList" type="POST:Streets"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getPostpaidPlansRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channel" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getPostpaidPlansResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" name="responseCode" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="rateplan" type="POST:rateplansObject"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="RatePlanObject">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="ratePlanId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ServiceObject">
+        <xs:sequence>
+          <xs:element name="serviceId" type="xs:int"/>
+          <xs:element name="busActivationCode" type="xs:string"/>
+          <xs:element name="price" type="xs:string"/>
+          <xs:element name="category" type="xs:string"/>
+          <xs:element name="description" type="xs:string"/>
+          <xs:element name="Eligible_RatePlanList" type="POST:RatePlanObject"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="getServicesRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channel" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getServicesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" name="responseCode" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="Service" type="POST:ServiceObject"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getServicesIncompatibilityDependencyRulesRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channel" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getServicesIncompatibilityDependencyRulesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="responseCode" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="serviceType" type="POST:incompatibilityDependencyObject"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getRenewalPlanMatrixRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channel" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getRenewalPlanMatrixResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="responseCode" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="renewalMatrix" type="POST:renewalPlanObject"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="matrix">
+        <xs:sequence>
+          <xs:element name="serviceID" type="xs:int"/>
+          <xs:element name="duration" type="xs:int"/>
+          <xs:element name="subsidy" type="xs:decimal"/>
+          <xs:element name="offerType" type="xs:string"/>
+          <xs:element name="renewalOfferDescription" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="getRenewalExtraOptionsMatrixRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channel" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getRenewalExtraOptionsMatrixResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="responseCode" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="Matrix" type="POST:matrix"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="phoneMatrixElements">
+        <xs:sequence>
+          <xs:element name="rateplanID" type="xs:int"/>
+          <xs:element name="duration" type="xs:int"/>
+          <xs:element name="phoneDescription" type="xs:string"/>
+          <xs:element name="subsidy" type="xs:decimal"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="getNationalCampaignMatrixRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channel" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getNationalCampaignMatrixResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="responseCode" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="phoneMatrix" type="POST:phoneMatrixElements"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="postpaidCatalogue_exception">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="error_message" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="getAddressFieldsResponse">
+    <WL5G3N0:part element="WL5G3N1:getAddressFieldsResponse" name="response"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getAddressFieldsRequest">
+    <WL5G3N0:part element="WL5G3N1:getAddressFieldsRequest" name="input"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getPostpaidPlansRequest">
+    <WL5G3N0:part element="WL5G3N1:getPostpaidPlansRequest" name="input"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getPostpaidPlansResponse">
+    <WL5G3N0:part element="WL5G3N1:getPostpaidPlansResponse" name="output"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getServicesRequest">
+    <WL5G3N0:part element="WL5G3N1:getServicesRequest" name="input"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getServicesResponse">
+    <WL5G3N0:part element="WL5G3N1:getServicesResponse" name="output"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getServicesIncompatibilityDependencyRulesRequest">
+    <WL5G3N0:part element="WL5G3N1:getServicesIncompatibilityDependencyRulesRequest" name="input"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getServicesIncompatibilityDependencyRulesResponse">
+    <WL5G3N0:part element="WL5G3N1:getServicesIncompatibilityDependencyRulesResponse" name="output"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getRenewalPlanMatrixRequest">
+    <WL5G3N0:part element="WL5G3N1:getRenewalPlanMatrixRequest" name="input"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getRenewalPlanMatrixResponse">
+    <WL5G3N0:part element="WL5G3N1:getRenewalPlanMatrixResponse" name="output"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getRenewalExtraOptionsMatrixRequest">
+    <WL5G3N0:part element="WL5G3N1:getRenewalExtraOptionsMatrixRequest" name="input"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getRenewalExtraOptionsMatrixResponse">
+    <WL5G3N0:part element="WL5G3N1:getRenewalExtraOptionsMatrixResponse" name="output"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getNationalCampaignMatrixRequest">
+    <WL5G3N0:part element="WL5G3N1:getNationalCampaignMatrixRequest" name="input"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getNationalCampaignMatrixResponse">
+    <WL5G3N0:part element="WL5G3N1:getNationalCampaignMatrixResponse" name="output"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="cosmote_exception">
+    <WL5G3N0:part element="WL5G3N1:postpaidCatalogue_exception" name="post_exception"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="PostpaidCatalogueWSPort">
+    <WL5G3N0:operation name="getAddressFields">
+      <WL5G3N0:input message="WL5G3N1:getAddressFieldsRequest"/>
+      <WL5G3N0:output message="WL5G3N1:getAddressFieldsResponse"/>
+      <WL5G3N0:fault message="WL5G3N1:cosmote_exception" name="PostpaidCatalogueWSFault"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getPostpaidPlans">
+      <WL5G3N0:input message="WL5G3N1:getPostpaidPlansRequest"/>
+      <WL5G3N0:output message="WL5G3N1:getPostpaidPlansResponse"/>
+      <WL5G3N0:fault message="WL5G3N1:cosmote_exception" name="PostpaidCatalogueWSFault"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getServices">
+      <WL5G3N0:input message="WL5G3N1:getServicesRequest"/>
+      <WL5G3N0:output message="WL5G3N1:getServicesResponse"/>
+      <WL5G3N0:fault message="WL5G3N1:cosmote_exception" name="PostpaidCatalogueWSFault"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getServicesIncompatibilityDependencyRules">
+      <WL5G3N0:input message="WL5G3N1:getServicesIncompatibilityDependencyRulesRequest"/>
+      <WL5G3N0:output message="WL5G3N1:getServicesIncompatibilityDependencyRulesResponse"/>
+      <WL5G3N0:fault message="WL5G3N1:cosmote_exception" name="PostpaidCatalogueWSFault"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getRenewalPlanMatrix">
+      <WL5G3N0:input message="WL5G3N1:getRenewalPlanMatrixRequest"/>
+      <WL5G3N0:output message="WL5G3N1:getRenewalPlanMatrixResponse"/>
+      <WL5G3N0:fault message="WL5G3N1:cosmote_exception" name="PostpaidCatalogueWSFault"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getRenewalExtraOptionsMatrix">
+      <WL5G3N0:input message="WL5G3N1:getRenewalExtraOptionsMatrixRequest"/>
+      <WL5G3N0:output message="WL5G3N1:getRenewalExtraOptionsMatrixResponse"/>
+      <WL5G3N0:fault message="WL5G3N1:cosmote_exception" name="PostpaidCatalogueWSFault"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getNationalCampaignMatrix">
+      <WL5G3N0:input message="WL5G3N1:getNationalCampaignMatrixRequest"/>
+      <WL5G3N0:output message="WL5G3N1:getNationalCampaignMatrixResponse"/>
+      <WL5G3N0:fault message="WL5G3N1:cosmote_exception" name="PostpaidCatalogueWSFault"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="PostpaidCatalogueWSServiceBinding" type="WL5G3N1:PostpaidCatalogueWSPort">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="getAddressFields">
+      <WL5G3N2:operation soapAction="http://rom/cosmote/Postpaid/webservice/Postpaidcatalogue/getAddressFields" style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+      <WL5G3N0:fault name="PostpaidCatalogueWSFault">
+        <WL5G3N2:fault name="PostpaidCatalogueWSFault" use="literal"/>
+      </WL5G3N0:fault>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getPostpaidPlans">
+      <WL5G3N2:operation soapAction="http://rom/cosmote/postpaid/webservice/Postpaidcatalogue/getPostpaidPlans" style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+      <WL5G3N0:fault name="PostpaidCatalogueWSFault">
+        <WL5G3N2:fault name="PostpaidCatalogueWSFault" use="literal"/>
+      </WL5G3N0:fault>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getServices">
+      <WL5G3N2:operation soapAction="http://rom/cosmote/postpaid/webservice/Postpaidcatalogue/getServices" style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+      <WL5G3N0:fault name="PostpaidCatalogueWSFault">
+        <WL5G3N2:fault name="PostpaidCatalogueWSFault" use="literal"/>
+      </WL5G3N0:fault>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getServicesIncompatibilityDependencyRules">
+      <WL5G3N2:operation soapAction="http://rom/cosmote/postpaid/webservice/Postpaidcatalogue/getServicesIncompatibilityDependencyRules" style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+      <WL5G3N0:fault name="PostpaidCatalogueWSFault">
+        <WL5G3N2:fault name="PostpaidCatalogueWSFault" use="literal"/>
+      </WL5G3N0:fault>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getRenewalPlanMatrix">
+      <WL5G3N2:operation soapAction="http://rom/cosmote/postpaid/webservice/Postpaidcatalogue/getRenewalPlanMatrix" style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+      <WL5G3N0:fault name="PostpaidCatalogueWSFault">
+        <WL5G3N2:fault name="PostpaidCatalogueWSFault" use="literal"/>
+      </WL5G3N0:fault>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getRenewalExtraOptionsMatrix">
+      <WL5G3N2:operation soapAction="http://rom/cosmote/postpaid/webservice/Postpaidcatalogue/getRenewalExtraOptionsMatrix" style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+      <WL5G3N0:fault name="PostpaidCatalogueWSFault">
+        <WL5G3N2:fault name="PostpaidCatalogueWSFault" use="literal"/>
+      </WL5G3N0:fault>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="getNationalCampaignMatrix">
+      <WL5G3N2:operation soapAction="http://rom/cosmote/postpaid/webservice/Postpaidcatalogue/getNationalCampaignMatrix" style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+      <WL5G3N0:fault name="PostpaidCatalogueWSFault">
+        <WL5G3N2:fault name="PostpaidCatalogueWSFault" use="literal"/>
+      </WL5G3N0:fault>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="PostpaidCatalogueWSService">
+    <WL5G3N0:port binding="WL5G3N1:PostpaidCatalogueWSServiceBinding" name="PostpaidCatalogueWSPort">
+      <WL5G3N2:address location="http://romappuat1:9601/E_shop_SB/ProxyServices/PostpaidCatalog_proxy"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>

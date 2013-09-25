@@ -2,12 +2,8 @@ package client;
 
 import mock.stub.StubRequest;
 import mock.stub.StubResponse;
-import org.apache.xmlbeans.XmlObject;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 

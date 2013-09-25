@@ -12,6 +12,7 @@ public class WSClient {
     private String stubsPackageName;
 
     public XmlObject callService(String serviceName, String methodName, String endPoint, XmlObject request) throws WSException {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
         Class stubClass = getStub(serviceName);
         Object serviceStub = getServiceStub(endPoint, stubClass);
         Method serviceMethod = getMethodForInvokingWS(methodName, stubClass, request.getClass());
