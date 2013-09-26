@@ -3,6 +3,7 @@ package manager;
 import client.WSClient;
 import exception.WSException;
 import org.apache.xmlbeans.XmlObject;
+import ro.cosmote.integration.ws.client.PostpaidCatalogueWSService.PostpaidCatalogueWSServiceStub;
 
 public class DefaultManager {
     private WSClient wsClient;

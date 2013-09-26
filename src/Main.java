@@ -1,5 +1,7 @@
 import client.WSClient;
 import exception.WSException;
+import manager.DefaultManager;
+import manager.PostpaidCatalogueManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,14 +9,18 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws WSException {
-        String packageName = "org.apache.axis2.axis2userguide";
+        String packageName = "ro.cosmote.integration.ws.client";
         String serviceName = "PostpaidCatalogueWSService";
-        String operationName = "getServices";
-        String endPoint = "http://localhost:8088";
+        String endPoint = "http://localhost:8088/postpaid";
 
         WSClient wsClient = new WSClient();
         wsClient.setStubsPackageName(packageName);
 
-//        wsClient.callService(serviceName, operationName, endPoint, params);
+        PostpaidCatalogueManager manager = new PostpaidCatalogueManager();
+        manager.setServiceName(serviceName);
+        manager.setWsClient(wsClient);
+        manager.setWsEndpoint(endPoint);
+
+        manager.getServices();
     }
 }
