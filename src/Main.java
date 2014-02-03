@@ -22,5 +22,6 @@ public class Main {
         manager.setWsEndpoint(endPoint);
 
         manager.getServices();
+        //test
     }
 }
