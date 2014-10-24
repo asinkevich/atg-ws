@@ -2,14 +2,18 @@ Simple TestCase for Docker
 ==========================
 
 ## Common setup
-* [Install Docker](https://docs.docker.com/installation/)
-* Set environment variable `DOCKER_HOST=tcp://<host>:<port>`
+1. [Install Docker](https://docs.docker.com/installation/)
+2. Set environment variable:
+`DOCKER_HOST=tcp://<host>:<port>`
 
 ## Linux setup
 Run Docker in daemon mode:
-Or if you are using git then use the following command:
-`$ sudo docker -H 0.0.0.0:5555 -d &`
 
+`$ sudo docker -H 0.0.0.0:5555 -d &`
+where `5555` - arbitrary tcp port which
+
+## Windows setup
+Set envi
 
 * [Install Docker](https://docs.docker.com/installation/)
 * Set environment variable `DOCKER_HOST=tcp://<host>:<port>`
