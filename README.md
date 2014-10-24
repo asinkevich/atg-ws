@@ -7,10 +7,13 @@ Simple TestCase for Docker
 `DOCKER_HOST=tcp://<host>:<port>`
 
 ## Linux setup
-Run Docker in daemon mode:
+1. Run Docker in daemon mode:
 
-`$ sudo docker -H 0.0.0.0:5555 -d &`
-where `5555` - arbitrary tcp port which
+`$ sudo docker -H 0.0.0.0:5555 -d &` where `5555` - arbitrary tcp port which
+
+2. Set evnironemnt variable:
+
+`DOCKER_HOST=tcp://<server_host>:5555` where `server_host` - server which runs Docker
 
 ## Windows setup
 Set environment variables:
