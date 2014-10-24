@@ -2,7 +2,6 @@ Simple TestCase for Docker
 ==========================
 
 * [Install Docker](https://docs.docker.com/installation/)
-* Run Docker in
 * Run Docker in daemon mode
  * Linux: `sudo docker -H 0.0.0.0:5555 -d &` where `5555` is arbitrary tcp port
  * Windows: Docker is started in boot2docker vm, all you need is to set environment variables:
