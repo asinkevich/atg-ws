@@ -8,7 +8,7 @@ Simple TestCase for Docker
 ## Linux setup
 Run Docker in daemon mode:
 Or if you are using git then use the following command:
-  $ sudo docker -H 0.0.0.0:5555 -d &
+  `$ sudo docker -H 0.0.0.0:5555 -d &`
 
 
 * [Install Docker](https://docs.docker.com/installation/)
