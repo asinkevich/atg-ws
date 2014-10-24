@@ -16,6 +16,7 @@ where `5555` - arbitrary tcp port which
 Set environment variables:
 
 `DOCKER_CERT_PATH={USER_HOME}\.boot2docker\certs\boot2docker-vm`
+
 `DOCKER_TLS_VERIFY=1`
 
 * [Install Docker](https://docs.docker.com/installation/)
