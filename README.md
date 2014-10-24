@@ -1,12 +1,12 @@
 docker-rabbitmq-mvn-example
 ===========================
 
-### Common setup
+### Setup
 [Install Docker](https://docs.docker.com/installation/) (for Windows use the latest version of Oracle VM VirtualBox and verify that `git_folder\bin` is included in `Path`).
 
 Note: installation boot2docker on Windows will delete generated ssh keys in home/.ssh folder.
 
-### Linux setup
+### In Linux
 1. Run Docker in daemon mode:
 
   `$ sudo docker -H 0.0.0.0:5555 -d &` where `5555` - arbitrary tcp port.
@@ -15,7 +15,7 @@ Note: installation boot2docker on Windows will delete generated ssh keys in home
 
   `DOCKER_HOST=tcp://<server_host>:5555` where `server_host` - server where Docker is running.
 
-### Windows setup
+### In Windows
 1. Set environment variables:
 
   `DOCKER_CERT_PATH={USER_HOME}\.boot2docker\certs\boot2docker-vm`
