@@ -13,7 +13,7 @@ Note: installation boot2docker on Windows will delete generated ssh keys in home
 
 2. Set environment variable:
 
-  `DOCKER_HOST=tcp://<server_host>:5555` where `server_host` - server which runs Docker.
+  `DOCKER_HOST=tcp://<server_host>:5555` where `server_host` - server where Docker is running.
 
 ### Windows setup
 1. Set environment variables:
@@ -22,8 +22,9 @@ Note: installation boot2docker on Windows will delete generated ssh keys in home
 
   `DOCKER_TLS_VERIFY=1`
 
-  `DOCKER_HOST=tcp://192.168.59.103:2376` (default values used by boot2docker).
+  `DOCKER_HOST=tcp://192.168.59.103:2376` (default host and port used by boot2docker).
 
 ### Run tests
 Run `mvn verify` to run integration tests. Maven-docker plugin will download & install all Docker's dependencies during 1st run.
+
 Note: maven-docker plugin requires at least Java 7.
