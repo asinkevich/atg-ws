@@ -19,6 +19,10 @@ Set environment variables:
 
 `DOCKER_TLS_VERIFY=1`
 
+`DOCKER_HOST=tcp://192.168.59.103:2376` (default values used by boot2docker)
+
+
+
 * [Install Docker](https://docs.docker.com/installation/)
 * Set environment variable `DOCKER_HOST=tcp://<host>:<port>`
 * Run Docker in daemon mode
